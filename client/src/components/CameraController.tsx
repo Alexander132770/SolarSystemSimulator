@@ -61,30 +61,37 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
       // Overview position - show entire solar system
       targetPosition.current.set(0, 15, 25);
       lookAtTarget.current.set(0, 0, 0);
+      
+      // Smooth camera transition for overview
+      const distanceToTarget = camera.position.distanceTo(targetPosition.current);
+      if (distanceToTarget > 0.1) {
+        currentPosition.current.copy(camera.position);
+        currentPosition.current.lerp(targetPosition.current, 0.05);
+        camera.position.copy(currentPosition.current);
+      }
+      
+      camera.lookAt(lookAtTarget.current);
     } else {
-      // Track specific planet
+      // Track specific planet - continuously follow it
       const planetRef = planetRefs[currentTarget];
       if (planetRef?.current) {
         const planetPos = new THREE.Vector3();
         planetRef.current.getWorldPosition(planetPos);
         
-        // Position camera closer to the planet for detailed view
-        const offset = new THREE.Vector3(0, 1, 3);
+        // Calculate camera position relative to planet with fixed offset
+        const offset = new THREE.Vector3(0, 2, 4);
         targetPosition.current.copy(planetPos).add(offset);
         lookAtTarget.current.copy(planetPos);
+        
+        // Continuously follow the planet with smooth interpolation
+        currentPosition.current.copy(camera.position);
+        currentPosition.current.lerp(targetPosition.current, 0.08);
+        camera.position.copy(currentPosition.current);
+        
+        // Always look at the planet
+        camera.lookAt(lookAtTarget.current);
       }
     }
-
-    // Smooth camera transition - only update if we're not already close to target
-    const distanceToTarget = camera.position.distanceTo(targetPosition.current);
-    if (distanceToTarget > 0.1) {
-      currentPosition.current.copy(camera.position);
-      currentPosition.current.lerp(targetPosition.current, 0.05);
-      camera.position.copy(currentPosition.current);
-    }
-    
-    // Smooth look-at transition
-    camera.lookAt(lookAtTarget.current);
   });
 
   return null;
