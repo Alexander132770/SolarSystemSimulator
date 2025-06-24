@@ -66,7 +66,7 @@ export const solarSystemData: PlanetData[] = [
         radius: 0.27 * SCALE_FACTOR,
         distance: 3.0 * DISTANCE_SCALE,
         orbitalPeriod: 0.075, // ~27 days
-        color: "#C5C5C5",
+        color: "#ffffff",
         texture: "/textures/moonmap1k.jpg",
         bumpMap: "/textures/moonbump1k.jpg"
       }

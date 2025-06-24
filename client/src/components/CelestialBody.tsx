@@ -44,6 +44,15 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
           shininess: 10,
           specular: 0x333333,
         });
+      } else if (data.name === 'Moon') {
+        return new THREE.MeshPhongMaterial({
+          map: texture,
+          bumpMap: bumpMap,
+          color: 0xffffff, // Pure white to show true lunar surface colors
+          bumpScale: 0.008,
+          shininess: 0,
+          specular: 0x000000,
+        });
       } else {
         return new THREE.MeshPhongMaterial({
           map: texture,
