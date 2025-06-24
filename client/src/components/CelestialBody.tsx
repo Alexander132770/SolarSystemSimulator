@@ -15,13 +15,13 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
   
-  // Load textures if available
-  const texture = data.texture ? useLoader(TextureLoader, data.texture, (loader) => {
+  // Load textures if available with cache busting
+  const texture = data.texture ? useLoader(TextureLoader, `${data.texture}?v=${Date.now()}`, (loader) => {
     loader.flipY = false;
     return loader;
   }) : null;
   
-  const bumpMap = (data as PlanetData).bumpMap ? useLoader(TextureLoader, (data as PlanetData).bumpMap!, (loader) => {
+  const bumpMap = (data as PlanetData).bumpMap ? useLoader(TextureLoader, `${(data as PlanetData).bumpMap!}?v=${Date.now()}`, (loader) => {
     loader.flipY = false;
     return loader;
   }) : null;
