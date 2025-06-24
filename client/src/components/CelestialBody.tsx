@@ -18,6 +18,7 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
   // Load textures if available
   const texture = data.texture ? useLoader(TextureLoader, data.texture, (loader) => {
     loader.flipY = false;
+    console.log(`Loading texture for ${data.name}: ${data.texture}`);
     return loader;
   }) : null;
   
@@ -49,7 +50,7 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
           map: texture,
           bumpMap: bumpMap,
           color: 0xffffff, // Pure white to show true lunar surface colors
-          bumpScale: 0.008,
+          bumpScale: 0.02,
           shininess: 0,
           specular: 0x000000,
         });
