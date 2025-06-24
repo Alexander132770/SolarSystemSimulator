@@ -37,7 +37,7 @@ export const solarSystemData: PlanetData[] = [
     orbitalPeriod: 0.24,
     rotationPeriod: 58.6,
     color: "#8C7853",
-    texture: "/textures/mercurymap_updated.jpg",
+    texture: "/textures/mercurymap.jpg",
     bumpMap: "/textures/mercurybump.jpg"
   },
   {
@@ -57,7 +57,7 @@ export const solarSystemData: PlanetData[] = [
     orbitalPeriod: 1.0,
     rotationPeriod: 1.0,
     color: "#ffffff",
-    texture: "/textures/earthmap1k_updated.jpg",
+    texture: "/textures/earthmap1k.jpg",
     bumpMap: "/textures/earthbump1k.jpg",
     hasAtmosphere: true,
     moons: [
@@ -67,7 +67,7 @@ export const solarSystemData: PlanetData[] = [
         distance: 3.0 * DISTANCE_SCALE,
         orbitalPeriod: 0.075, // ~27 days
         color: "#C5C5C5",
-        texture: "/textures/moonmap1k_updated.jpg",
+        texture: "/textures/moonmap1k.jpg",
         bumpMap: "/textures/moonbump1k.jpg"
       }
     ]
@@ -79,7 +79,7 @@ export const solarSystemData: PlanetData[] = [
     orbitalPeriod: 1.88,
     rotationPeriod: 1.03,
     color: "#CD5C5C",
-    texture: "/textures/marsmap1k_updated.jpg",
+    texture: "/textures/marsmap1k.jpg",
     bumpMap: "/textures/marsbump1k.jpg"
   }
 ];
