@@ -15,9 +15,8 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
   
-  // Load textures if available with cache busting for Earth
-  const textureUrl = data.texture ? (data.name === 'Earth' ? `${data.texture}?v=${Date.now()}` : data.texture) : null;
-  const texture = textureUrl ? useLoader(TextureLoader, textureUrl, (loader) => {
+  // Load textures if available
+  const texture = data.texture ? useLoader(TextureLoader, data.texture, (loader) => {
     loader.flipY = false;
     return loader;
   }) : null;
