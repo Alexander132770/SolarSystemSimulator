@@ -34,16 +34,28 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
         color: data.color,
       });
     } else {
-      return new THREE.MeshPhongMaterial({
-        map: texture,
-        bumpMap: bumpMap,
-        color: data.color,
-        bumpScale: 0.02,
-        shininess: 0,
-        specular: 0x111111,
-      });
+      // Special handling for Earth with better lighting
+      if (data.name === 'Earth') {
+        return new THREE.MeshPhongMaterial({
+          map: texture,
+          bumpMap: bumpMap,
+          color: data.color,
+          bumpScale: 0.005,
+          shininess: 5,
+          specular: 0x222222,
+        });
+      } else {
+        return new THREE.MeshPhongMaterial({
+          map: texture,
+          bumpMap: bumpMap,
+          color: data.color,
+          bumpScale: 0.02,
+          shininess: 0,
+          specular: 0x111111,
+        });
+      }
     }
-  }, [texture, bumpMap, data.color, isSun]);
+  }, [texture, bumpMap, data.color, data.name, isSun]);
 
   // Animation state
   const rotationSpeed = useMemo(() => {
@@ -62,8 +74,21 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
   return (
     <group ref={groupRef} position={position}>
       <mesh ref={meshRef} material={material} castShadow receiveShadow>
-        <sphereGeometry args={[data.radius, 32, 32]} />
+        <sphereGeometry args={[data.radius, 64, 64]} />
       </mesh>
+      
+      {/* Add atmosphere effect for Earth */}
+      {data.name === 'Earth' && (
+        <mesh>
+          <sphereGeometry args={[data.radius * 1.01, 32, 32]} />
+          <meshBasicMaterial 
+            color="#87CEEB"
+            transparent
+            opacity={0.1}
+            side={THREE.BackSide}
+          />
+        </mesh>
+      )}
       
       {/* Render moons if this is a planet */}
       {'moons' in data && data.moons && data.moons.map((moon, index) => (

@@ -9,6 +9,7 @@ export interface PlanetData {
   texture?: string;
   bumpMap?: string;
   hasRings?: boolean;
+  hasAtmosphere?: boolean;
   moons?: MoonData[];
 }
 
@@ -55,9 +56,10 @@ export const solarSystemData: PlanetData[] = [
     distance: 100 * DISTANCE_SCALE,
     orbitalPeriod: 1.0,
     rotationPeriod: 1.0,
-    color: "#6B93D6",
+    color: "#ffffff",
     texture: "/textures/earthmap1k.jpg",
     bumpMap: "/textures/earthbump1k.jpg",
+    hasAtmosphere: true,
     moons: [
       {
         name: "Moon",
