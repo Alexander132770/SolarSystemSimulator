@@ -19,6 +19,7 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
   const texture = data.texture ? useLoader(TextureLoader, data.texture, (loader) => {
     loader.flipY = false;
     console.log(`Loading texture for ${data.name}: ${data.texture}`);
+    loader.onLoad = () => console.log(`✓ Texture loaded successfully for ${data.name}`);
     return loader;
   }) : null;
   
@@ -46,11 +47,12 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
           specular: 0x333333,
         });
       } else if (data.name === 'Moon') {
+        console.log(`Creating Moon material with texture:`, texture);
         return new THREE.MeshPhongMaterial({
           map: texture,
           bumpMap: bumpMap,
           color: 0xffffff, // Pure white to show true lunar surface colors
-          bumpScale: 0.02,
+          bumpScale: 0.025,
           shininess: 0,
           specular: 0x000000,
         });
