@@ -1,4 +1,4 @@
-import { useState, useRef, Suspense } from 'react';
+import { useState, useRef, Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
@@ -21,14 +21,17 @@ function App() {
   const [currentTarget, setCurrentTarget] = useState('overview');
   
   // Create refs for each planet to track their positions
-  const planetRefs = useRef<Record<string, React.RefObject<THREE.Group>>>({});
+  const mercuryRef = useRef<THREE.Group>(null);
+  const venusRef = useRef<THREE.Group>(null);
+  const earthRef = useRef<THREE.Group>(null);
+  const marsRef = useRef<THREE.Group>(null);
   
-  // Initialize planet refs
-  solarSystemData.forEach(planet => {
-    if (!planetRefs.current[planet.name]) {
-      planetRefs.current[planet.name] = useRef<THREE.Group>(null);
-    }
-  });
+  const planetRefs = useMemo(() => ({
+    Mercury: mercuryRef,
+    Venus: venusRef,
+    Earth: earthRef,
+    Mars: marsRef,
+  }), []);
 
   const handleTargetChange = (target: string) => {
     console.log(`Switching camera target to: ${target}`);
@@ -57,25 +60,24 @@ function App() {
           
           <Suspense fallback={null}>
             {/* Main solar system */}
-            <SolarSystem planetRefs={planetRefs.current} />
+            <SolarSystem planetRefs={planetRefs} />
             
             {/* Camera controller for planet tracking */}
             <CameraController 
-              planetRefs={planetRefs.current}
+              planetRefs={planetRefs}
               currentTarget={currentTarget}
               onTargetChange={handleTargetChange}
             />
             
-            {/* Orbit controls for manual camera control (disabled when tracking) */}
-            {currentTarget === 'overview' && (
-              <OrbitControls 
-                enablePan={true}
-                enableZoom={true}
-                enableRotate={true}
-                maxDistance={100}
-                minDistance={5}
-              />
-            )}
+            {/* Orbit controls for manual camera control */}
+            <OrbitControls 
+              enablePan={true}
+              enableZoom={true}
+              enableRotate={true}
+              maxDistance={100}
+              minDistance={1}
+              enabled={currentTarget === 'overview'}
+            />
           </Suspense>
         </Canvas>
         

@@ -34,11 +34,13 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
         color: data.color,
       });
     } else {
-      return new THREE.MeshLambertMaterial({
+      return new THREE.MeshPhongMaterial({
         map: texture,
         bumpMap: bumpMap,
         color: data.color,
-        bumpScale: 0.1,
+        bumpScale: 0.02,
+        shininess: 0,
+        specular: 0x111111,
       });
     }
   }, [texture, bumpMap, data.color, isSun]);

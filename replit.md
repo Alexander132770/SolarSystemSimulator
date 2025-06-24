@@ -104,9 +104,14 @@ This project is a 3D interactive solar system simulation built with React Three 
 
 ## Changelog
 
-Changelog:
-- June 24, 2025. Initial setup
+- June 24, 2025: Initial setup of 3D Solar System simulation
+- June 24, 2025: Added realistic planetary textures and improved lighting system with sun-based illumination
+- June 24, 2025: Fixed camera controls to prevent auto-zoom out and improved planet tracking
+- June 24, 2025: Enhanced material system with Phong shading for better light/shadow effects
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Technical requirements:
+- Realistic sun lighting with visible day/night sides on planets
+- Fixed camera positioning without automatic zoom-out after approaching planets

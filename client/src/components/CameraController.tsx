@@ -68,17 +68,20 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
         const planetPos = new THREE.Vector3();
         planetRef.current.getWorldPosition(planetPos);
         
-        // Position camera behind and above the planet
-        const offset = new THREE.Vector3(0, 2, 5);
+        // Position camera closer to the planet for detailed view
+        const offset = new THREE.Vector3(0, 1, 3);
         targetPosition.current.copy(planetPos).add(offset);
         lookAtTarget.current.copy(planetPos);
       }
     }
 
-    // Smooth camera transition
-    currentPosition.current.copy(camera.position);
-    currentPosition.current.lerp(targetPosition.current, 0.02);
-    camera.position.copy(currentPosition.current);
+    // Smooth camera transition - only update if we're not already close to target
+    const distanceToTarget = camera.position.distanceTo(targetPosition.current);
+    if (distanceToTarget > 0.1) {
+      currentPosition.current.copy(camera.position);
+      currentPosition.current.lerp(targetPosition.current, 0.05);
+      camera.position.copy(currentPosition.current);
+    }
     
     // Smooth look-at transition
     camera.lookAt(lookAtTarget.current);
