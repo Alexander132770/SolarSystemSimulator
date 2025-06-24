@@ -39,10 +39,10 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
         return new THREE.MeshPhongMaterial({
           map: texture,
           bumpMap: bumpMap,
-          color: data.color,
-          bumpScale: 0.005,
-          shininess: 5,
-          specular: 0x222222,
+          color: 0xffffff, // Pure white to show true texture colors
+          bumpScale: 0.003,
+          shininess: 10,
+          specular: 0x333333,
         });
       } else {
         return new THREE.MeshPhongMaterial({
@@ -80,11 +80,11 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
       {/* Add atmosphere effect for Earth */}
       {data.name === 'Earth' && (
         <mesh>
-          <sphereGeometry args={[data.radius * 1.01, 32, 32]} />
+          <sphereGeometry args={[data.radius * 1.02, 32, 32]} />
           <meshBasicMaterial 
             color="#87CEEB"
             transparent
-            opacity={0.1}
+            opacity={0.15}
             side={THREE.BackSide}
           />
         </mesh>
