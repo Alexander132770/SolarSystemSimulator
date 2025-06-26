@@ -25,6 +25,7 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
   const targetPosition = useRef(new THREE.Vector3());
   const currentPosition = useRef(new THREE.Vector3());
   const lookAtTarget = useRef(new THREE.Vector3());
+  const orbitAngle = useRef(0);
 
   // Handle keyboard input for camera switching
   useEffect(() => {
@@ -72,18 +73,27 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
       
       camera.lookAt(lookAtTarget.current);
     } else {
-      // Track specific planet - continuously follow it
+      // Track specific planet - orbit around it
       const planetRef = planetRefs[currentTarget];
       if (planetRef?.current) {
         const planetPos = new THREE.Vector3();
         planetRef.current.getWorldPosition(planetPos);
         
-        // Calculate camera position relative to planet with fixed offset
-        const offset = new THREE.Vector3(0, 2, 4);
-        targetPosition.current.copy(planetPos).add(offset);
+        // Increment orbit angle for rotation around planet
+        orbitAngle.current += 0.01; // Adjust speed as needed
+        
+        // Calculate orbital camera position around the planet
+        const orbitRadius = 5; // Distance from planet
+        const orbitHeight = 2; // Height above orbital plane
+        
+        const orbitX = planetPos.x + Math.cos(orbitAngle.current) * orbitRadius;
+        const orbitZ = planetPos.z + Math.sin(orbitAngle.current) * orbitRadius;
+        const orbitY = planetPos.y + orbitHeight;
+        
+        targetPosition.current.set(orbitX, orbitY, orbitZ);
         lookAtTarget.current.copy(planetPos);
         
-        // Continuously follow the planet with smooth interpolation
+        // Smooth transition to orbital position
         currentPosition.current.copy(camera.position);
         currentPosition.current.lerp(targetPosition.current, 0.08);
         camera.position.copy(currentPosition.current);
