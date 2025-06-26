@@ -113,16 +113,11 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
         const orbitZ = planetPos.z + Math.sin(orbitAngle.current) * orbitRadius;
         const orbitY = planetPos.y + orbitHeight;
         
-        targetPosition.current.set(orbitX, orbitY, orbitZ);
-        lookAtTarget.current.copy(planetPos);
+        // Set camera position directly for precise orbital movement
+        camera.position.set(orbitX, orbitY, orbitZ);
         
-        // Smooth transition to orbital position
-        currentPosition.current.copy(camera.position);
-        currentPosition.current.lerp(targetPosition.current, 0.08);
-        camera.position.copy(currentPosition.current);
-        
-        // Always look at the planet
-        camera.lookAt(lookAtTarget.current);
+        // Always look directly at the planet center
+        camera.lookAt(planetPos);
       }
     }
   });
