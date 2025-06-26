@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useKeyboardControls } from '@react-three/drei';
 import * as THREE from 'three';
-import { CAMERA_TARGETS } from '../lib/solarSystemData';
+import { CAMERA_TARGETS, solarSystemData } from '../lib/solarSystemData';
 
 enum Controls {
   overview = 'overview',
@@ -82,9 +82,23 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
         // Increment orbit angle for rotation around planet (reversed direction)
         orbitAngle.current -= 0.01; // Changed to negative for opposite direction
         
-        // Calculate orbital camera position around the planet
-        const orbitRadius = 5; // Distance from planet
-        const orbitHeight = 2; // Height above orbital plane
+        // Calculate orbital camera position around the planet with planet-specific distance
+        const planetData = solarSystemData.find(p => p.name === currentTarget);
+        let orbitRadius = 5; // Default distance
+        
+        if (planetData) {
+          // Adjust orbit radius based on planet size and characteristics
+          const baseRadius = planetData.radius * 100; // Scale up from planet radius
+          orbitRadius = Math.max(baseRadius + 3, 2); // Minimum distance of 2, plus buffer
+          
+          // Special adjustments for specific planets
+          if (currentTarget === 'Mercury') orbitRadius = 2.5; // Smaller, closer orbit
+          if (currentTarget === 'Venus') orbitRadius = 3.5;
+          if (currentTarget === 'Earth') orbitRadius = 4.5;
+          if (currentTarget === 'Mars') orbitRadius = 3.0;
+        }
+        
+        const orbitHeight = orbitRadius * 0.3; // Height proportional to orbit radius
         
         const orbitX = planetPos.x + Math.cos(orbitAngle.current) * orbitRadius;
         const orbitZ = planetPos.z + Math.sin(orbitAngle.current) * orbitRadius;
