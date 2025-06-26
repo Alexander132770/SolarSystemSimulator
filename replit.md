@@ -110,6 +110,9 @@ This project is a 3D interactive solar system simulation built with React Three 
 - June 24, 2025: Enhanced material system with Phong shading for better light/shadow effects
 - June 26, 2025: Implemented orbital camera system - camera now rotates around selected planets when pressing keys 1-4
 - June 26, 2025: Added planet-specific orbital distances for camera - each planet now has appropriate viewing distance based on size
+- June 26, 2025: Implemented orbital speed synchronization - camera now moves at same speed as planet orbits
+- June 26, 2025: Enhanced planet centering - planets remain perfectly centered during camera rotation
+- June 26, 2025: Updated Earth texture with high-quality surface map and improved lighting system
 
 ## User Preferences
 
