@@ -79,11 +79,20 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
         const planetPos = new THREE.Vector3();
         planetRef.current.getWorldPosition(planetPos);
         
+        // Get planet data for orbital calculations
+        const planetData = solarSystemData.find(p => p.name === currentTarget);
+        
+        // Calculate orbital speed based on planet's orbital period
+        let cameraOrbitSpeed = 0.01; // Default speed
+        if (planetData) {
+          // Use the same orbital speed as the planet (from TIME_SCALE formula)
+          cameraOrbitSpeed = (2 * Math.PI * 0.01) / planetData.orbitalPeriod;
+        }
+        
         // Increment orbit angle for rotation around planet (reversed direction)
-        orbitAngle.current -= 0.01; // Changed to negative for opposite direction
+        orbitAngle.current -= cameraOrbitSpeed;
         
         // Calculate orbital camera position around the planet with planet-specific distance
-        const planetData = solarSystemData.find(p => p.name === currentTarget);
         let orbitRadius = 5; // Default distance
         
         if (planetData) {
