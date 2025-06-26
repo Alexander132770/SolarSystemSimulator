@@ -38,13 +38,10 @@ export function CelestialBody({ data, position = [0, 0, 0], isSun = false, paren
     } else {
       // Special handling for Earth with better lighting
       if (data.name === 'Earth') {
-        return new THREE.MeshPhongMaterial({
+        return new THREE.MeshLambertMaterial({
           map: texture,
           bumpMap: bumpMap,
           color: 0xffffff, // Pure white to show true texture colors
-          bumpScale: 0.003,
-          shininess: 10,
-          specular: 0x333333,
         });
       } else if (data.name === 'Moon') {
         console.log(`Creating Moon material with texture:`, texture);

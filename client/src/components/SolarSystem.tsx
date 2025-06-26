@@ -37,11 +37,11 @@ export function SolarSystem({ planetRefs }: SolarSystemProps) {
       {/* Starfield background */}
       <StarField />
       
-      {/* Lighting - Sun as primary light source with realistic illumination */}
-      <ambientLight intensity={0.2} color="#404080" />
+      {/* Enhanced lighting for better planet visibility */}
+      <ambientLight intensity={0.4} color="#ffffff" />
       <pointLight 
         position={[0, 0, 0]} 
-        intensity={5} 
+        intensity={3} 
         color="#FFD700"
         castShadow
         shadow-mapSize-width={2048}
@@ -50,8 +50,8 @@ export function SolarSystem({ planetRefs }: SolarSystemProps) {
         distance={0}
       />
       <directionalLight
-        position={[0, 0, 0]}
-        intensity={1.2}
+        position={[0, 10, 10]}
+        intensity={1.5}
         color="#FFFFFF"
         castShadow
         shadow-mapSize-width={1024}
