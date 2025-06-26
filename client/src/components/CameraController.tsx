@@ -92,10 +92,10 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
           orbitRadius = Math.max(baseRadius + 3, 2); // Minimum distance of 2, plus buffer
           
           // Special adjustments for specific planets
-          if (currentTarget === 'Mercury') orbitRadius = 2.5; // Smaller, closer orbit
-          if (currentTarget === 'Venus') orbitRadius = 3.5;
-          if (currentTarget === 'Earth') orbitRadius = 4.5;
-          if (currentTarget === 'Mars') orbitRadius = 3.0;
+          if (currentTarget === 'Mercury') orbitRadius = 3.5;
+          if (currentTarget === 'Venus') orbitRadius = 4.5;
+          if (currentTarget === 'Earth') orbitRadius = 6.5;
+          if (currentTarget === 'Mars') orbitRadius = 6.5;
         }
         
         const orbitHeight = orbitRadius * 0.3; // Height proportional to orbit radius
