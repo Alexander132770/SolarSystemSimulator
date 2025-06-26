@@ -82,28 +82,39 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
         // Get planet data for orbital calculations
         const planetData = solarSystemData.find(p => p.name === currentTarget);
         
-        // Calculate fixed offset distance for each planet
-        let followDistance = 5; // Default distance
-        
+        // Calculate orbital speed based on planet's orbital period
+        let cameraOrbitSpeed = 0.01; // Default speed
         if (planetData) {
-          // Special adjustments for specific planets
-          if (currentTarget === 'Mercury') followDistance = 3.5;
-          if (currentTarget === 'Venus') followDistance = 4.5;
-          if (currentTarget === 'Earth') followDistance = 6.5;
-          if (currentTarget === 'Mars') followDistance = 7.5;
+          // Use the same orbital speed as the planet (from TIME_SCALE formula)
+          cameraOrbitSpeed = (2 * Math.PI * 0.01) / planetData.orbitalPeriod;
         }
         
-        // Position camera at fixed offset behind the planet (relative to its orbital motion)
-        const followHeight = followDistance * 0.3; // Height above orbital plane
-        const followOffset = new THREE.Vector3(0, followHeight, followDistance);
+        // Increment orbit angle for rotation around planet (reversed direction)
+        orbitAngle.current -= cameraOrbitSpeed;
         
-        // Calculate camera position relative to planet
-        targetPosition.current.copy(planetPos).add(followOffset);
+        // Calculate orbital camera position around the planet with planet-specific distance
+        let orbitRadius = 5; // Default distance
         
-        // Smooth camera transition to target position
-        currentPosition.current.copy(camera.position);
-        currentPosition.current.lerp(targetPosition.current, 0.08);
-        camera.position.copy(currentPosition.current);
+        if (planetData) {
+          // Adjust orbit radius based on planet size and characteristics
+          const baseRadius = planetData.radius * 100; // Scale up from planet radius
+          orbitRadius = Math.max(baseRadius + 3, 2); // Minimum distance of 2, plus buffer
+          
+          // Special adjustments for specific planets
+          if (currentTarget === 'Mercury') orbitRadius = 3.5;
+          if (currentTarget === 'Venus') orbitRadius = 4.5;
+          if (currentTarget === 'Earth') orbitRadius = 6.5;
+          if (currentTarget === 'Mars') orbitRadius = 7.5;
+        }
+        
+        const orbitHeight = orbitRadius * 0.3; // Height proportional to orbit radius
+        
+        const orbitX = planetPos.x + Math.cos(orbitAngle.current) * orbitRadius;
+        const orbitZ = planetPos.z + Math.sin(orbitAngle.current) * orbitRadius;
+        const orbitY = planetPos.y + orbitHeight;
+        
+        // Set camera position directly for precise orbital movement
+        camera.position.set(orbitX, orbitY, orbitZ);
         
         // Always look directly at the planet center
         camera.lookAt(planetPos);
