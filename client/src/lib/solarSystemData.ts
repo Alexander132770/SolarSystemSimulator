@@ -57,7 +57,7 @@ export const solarSystemData: PlanetData[] = [
     orbitalPeriod: 1.0,
     rotationPeriod: 1.0,
     color: "#ffffff",
-    texture: "/textures/earthmap1k.jpg",
+    texture: "/textures/earthmap1k_new.jpg",
     bumpMap: "/textures/earthbump1k.jpg",
     hasAtmosphere: true,
     moons: [
