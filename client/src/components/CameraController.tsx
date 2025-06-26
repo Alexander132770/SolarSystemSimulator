@@ -79,8 +79,8 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
         const planetPos = new THREE.Vector3();
         planetRef.current.getWorldPosition(planetPos);
         
-        // Increment orbit angle for rotation around planet
-        orbitAngle.current += 0.01; // Adjust speed as needed
+        // Increment orbit angle for rotation around planet (reversed direction)
+        orbitAngle.current -= 0.01; // Changed to negative for opposite direction
         
         // Calculate orbital camera position around the planet
         const orbitRadius = 5; // Distance from planet
