@@ -95,7 +95,7 @@ export function CameraController({ planetRefs, currentTarget, onTargetChange }: 
           if (currentTarget === 'Mercury') orbitRadius = 3.5;
           if (currentTarget === 'Venus') orbitRadius = 4.5;
           if (currentTarget === 'Earth') orbitRadius = 6.5;
-          if (currentTarget === 'Mars') orbitRadius = 6.5;
+          if (currentTarget === 'Mars') orbitRadius = 7.5;
         }
         
         const orbitHeight = orbitRadius * 0.3; // Height proportional to orbit radius

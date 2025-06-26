@@ -70,10 +70,10 @@ export function SolarSystem({ planetRefs }: SolarSystemProps) {
           64
         );
         const orbitMaterial = new THREE.MeshBasicMaterial({
-          color: 0x444444,
+          color: 0xffffff,
           side: THREE.DoubleSide,
           transparent: true,
-          opacity: 0.3
+          opacity: 0.4
         });
 
         return (
